@@ -1,0 +1,1373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aryan Maheshwari — Aerospace & Robotics Engineering</title>
+  <meta name="description" content="High school senior building drone systems for hazardous environments. Founder of Aero Robotics. Open to engineering internships across aerospace, robotics, and climate hardware." />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg-0:     #04060c;
+      --bg-1:     #080d1a;
+      --bg-2:     #0f1626;
+      --surface:  rgba(15, 22, 38, 0.7);
+      --border:   #1c2942;
+      --border-2: #2a3a5c;
+      --text:     #e8eef9;
+      --muted:    #94a3b8;
+      --dim:      #5d6e8c;
+      --blue:     #3b82f6;
+      --blue-2:   #60a5fa;
+      --blue-3:   #93c5fd;
+      --cyan:     #22d3ee;
+      --teal:     #14b8a6;
+      --warn:     #fbbf24;
+      --green:    #4ade80;
+      --red:      #f87171;
+      --glow:     rgba(59, 130, 246, 0.35);
+      --grid:     rgba(96, 165, 250, 0.045);
+      --font:     'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+      --mono:     'JetBrains Mono', 'SF Mono', ui-monospace, Menlo, monospace;
+      --radius:   12px;
+      --shadow:   0 14px 50px rgba(0, 0, 0, 0.5);
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font);
+      background: var(--bg-0);
+      color: var(--text);
+      line-height: 1.65;
+      font-size: 16px;
+      overflow-x: hidden;
+      background-image:
+        radial-gradient(900px 600px at 85% -5%, rgba(59,130,246,0.10), transparent 60%),
+        radial-gradient(700px 600px at -10% 25%, rgba(34,211,238,0.06), transparent 60%);
+      background-attachment: fixed;
+    }
+
+    /* Blueprint grid background — slow drift */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: -48px;
+      background-image:
+        linear-gradient(var(--grid) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: radial-gradient(ellipse at 50% 30%, black 25%, transparent 80%);
+      pointer-events: none;
+      z-index: 0;
+      animation: gridDrift 60s linear infinite;
+    }
+    @keyframes gridDrift {
+      from { background-position: 0 0; }
+      to   { background-position: 48px 48px; }
+    }
+
+    /* Scroll progress bar */
+    .scroll-progress {
+      position: fixed;
+      top: 0; left: 0;
+      height: 2px;
+      width: 0%;
+      background: linear-gradient(90deg, var(--blue), var(--cyan));
+      z-index: 200;
+      box-shadow: 0 0 12px var(--cyan);
+      transition: width 0.05s linear;
+    }
+
+    a { color: var(--blue-2); text-decoration: none; transition: color .18s; }
+    a:hover { color: var(--cyan); }
+
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 28px; position: relative; z-index: 1; }
+    section { padding: 100px 0; position: relative; z-index: 1; }
+
+    /* Section identifier strip */
+    .section-id {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--cyan);
+      margin-bottom: 16px;
+    }
+    .section-id .tag-num {
+      padding: 3px 9px;
+      background: rgba(34,211,238,0.08);
+      border: 1px solid rgba(34,211,238,0.3);
+      border-radius: 4px;
+      color: var(--cyan);
+    }
+    .section-id .tag-line { width: 32px; height: 1px; background: var(--cyan); opacity: 0.5; }
+
+    h2.section-title {
+      font-size: clamp(30px, 3.6vw, 42px);
+      font-weight: 800;
+      letter-spacing: -0.6px;
+      margin-bottom: 14px;
+      color: var(--text);
+      position: relative;
+      display: inline-block;
+    }
+    h2.section-title span { color: var(--blue-2); }
+    h2.section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -8px; left: 0;
+      width: 60px;
+      height: 2px;
+      background: linear-gradient(90deg, var(--blue), transparent);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform .8s ease .2s;
+    }
+    .reveal.visible h2.section-title::after { transform: scaleX(1); }
+
+    .section-sub {
+      color: var(--muted);
+      max-width: 640px;
+      margin: 18px 0 50px;
+      font-size: 15.5px;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(4, 6, 12, 0.72);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      height: 64px;
+    }
+    .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 28px;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo {
+      font-weight: 800;
+      font-size: 16px;
+      color: var(--text);
+      letter-spacing: -0.4px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .nav-logo-mark {
+      width: 26px; height: 26px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .nav-logo-mark svg { width: 100%; height: 100%; }
+    .nav-logo .accent { color: var(--cyan); }
+    .nav-links { display: flex; gap: 30px; list-style: none; align-items: center; }
+    .nav-links a {
+      font-size: 13.5px;
+      font-weight: 500;
+      color: var(--muted);
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--blue-2); }
+    .nav-cta {
+      background: linear-gradient(135deg, var(--blue) 0%, #2563eb 100%);
+      color: #fff !important;
+      padding: 9px 20px;
+      border-radius: 8px;
+      font-weight: 600 !important;
+      box-shadow: 0 4px 14px rgba(59,130,246,0.3);
+      transition: transform .15s, box-shadow .2s;
+    }
+    .nav-cta:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 22px rgba(59,130,246,0.5);
+      color: #fff !important;
+    }
+
+    /* HERO */
+    #hero {
+      padding-top: 140px;
+      padding-bottom: 110px;
+      position: relative;
+      overflow: hidden;
+    }
+    #hero::after {
+      content: '';
+      position: absolute;
+      top: -10%; left: 50%;
+      transform: translateX(-50%);
+      width: 1200px; height: 1200px;
+      background: radial-gradient(circle, rgba(59,130,246,0.10), transparent 55%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    /* Corner crosshairs for engineering feel — gentle breath */
+    .corner {
+      position: absolute;
+      width: 28px;
+      height: 28px;
+      border: 1px solid rgba(96,165,250,0.25);
+      pointer-events: none;
+      z-index: 1;
+      animation: cornerBreath 6s ease-in-out infinite;
+    }
+    .corner.tl { top: 100px; left: 28px; border-right: none; border-bottom: none; }
+    .corner.tr { top: 100px; right: 28px; border-left: none; border-bottom: none; animation-delay: .8s; }
+    .corner.bl { bottom: 28px; left: 28px; border-right: none; border-top: none; animation-delay: 1.6s; }
+    .corner.br { bottom: 28px; right: 28px; border-left: none; border-top: none; animation-delay: 2.4s; }
+    @keyframes cornerBreath {
+      0%, 100% { border-color: rgba(96,165,250,0.18); }
+      50%      { border-color: rgba(34,211,238,0.45); }
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.05fr 1fr;
+      gap: 56px;
+      align-items: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(74, 222, 128, 0.08);
+      border: 1px solid rgba(74, 222, 128, 0.25);
+      color: var(--green);
+      font-family: var(--mono);
+      font-size: 11.5px;
+      font-weight: 500;
+      letter-spacing: 1.8px;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 4px;
+      margin-bottom: 24px;
+    }
+    .hero-eyebrow .pulse-dot {
+      position: relative;
+      width: 8px; height: 8px;
+      background: var(--green);
+      border-radius: 50%;
+    }
+    .hero-eyebrow .pulse-dot::after {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      border: 1.5px solid var(--green);
+      opacity: 0;
+      animation: pulseRing 2s ease-out infinite;
+    }
+    @keyframes pulseRing {
+      0% { transform: scale(0.7); opacity: 0.9; }
+      80%, 100% { transform: scale(2.2); opacity: 0; }
+    }
+
+    .hero-name {
+      font-size: clamp(42px, 6.2vw, 72px);
+      font-weight: 800;
+      line-height: 1.0;
+      letter-spacing: -2.5px;
+      margin-bottom: 16px;
+      background: linear-gradient(180deg, #ffffff 0%, #a3b6d4 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero-role {
+      font-size: clamp(18px, 1.9vw, 22px);
+      font-weight: 600;
+      color: var(--blue-2);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .hero-role .role-divider {
+      width: 30px;
+      height: 2px;
+      background: var(--blue);
+      flex-shrink: 0;
+      animation: lineGrow 1.2s ease forwards;
+      animation-delay: 0.7s;
+      transform: scaleX(0);
+      transform-origin: left;
+    }
+    @keyframes lineGrow {
+      to { transform: scaleX(1); }
+    }
+
+    .hero-desc {
+      font-size: 16.5px;
+      color: var(--muted);
+      max-width: 580px;
+      margin-bottom: 36px;
+      line-height: 1.78;
+    }
+    .hero-desc strong { color: var(--text); font-weight: 600; }
+
+    .hero-btns { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 40px; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 13px 22px;
+      border-radius: 9px;
+      font-weight: 600;
+      font-size: 14.5px;
+      transition: transform .15s, box-shadow .25s, background .25s, border-color .25s;
+      cursor: pointer;
+      border: 1px solid transparent;
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--blue) 0%, #2563eb 100%);
+      color: #fff;
+      box-shadow: 0 6px 18px rgba(59,130,246,0.35);
+    }
+    .btn-primary::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent);
+      transition: left .7s ease;
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 32px rgba(59,130,246,0.55);
+      color: #fff;
+    }
+    .btn-primary:hover::before { left: 100%; }
+    .btn-secondary {
+      background: rgba(96, 165, 250, 0.05);
+      color: var(--blue-2);
+      border-color: var(--border-2);
+    }
+    .btn-secondary:hover {
+      background: rgba(96, 165, 250, 0.12);
+      border-color: var(--blue);
+      color: var(--cyan);
+      transform: translateY(-2px);
+    }
+    .btn svg { width: 16px; height: 16px; }
+
+    .hero-meta {
+      display: flex;
+      gap: 30px;
+      flex-wrap: wrap;
+      padding-top: 28px;
+      border-top: 1px solid var(--border);
+      position: relative;
+    }
+    .hero-meta::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 60px; height: 1px;
+      background: var(--cyan);
+      box-shadow: 0 0 8px var(--cyan);
+    }
+    .meta-item { font-size: 13px; }
+    .meta-label {
+      font-family: var(--mono);
+      color: var(--dim);
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      font-size: 10.5px;
+      margin-bottom: 4px;
+      display: block;
+    }
+    .meta-value { color: var(--text); font-weight: 600; }
+    .meta-value .grn { color: var(--green); }
+
+    /* HEADSHOT STAGE — replaces HUD */
+    .stage {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      max-width: 440px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Soft outer glow */
+    .stage::before {
+      content: '';
+      position: absolute;
+      inset: 8%;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(59,130,246,0.18) 0%, transparent 65%);
+      filter: blur(20px);
+      animation: glowPulse 6s ease-in-out infinite;
+      pointer-events: none;
+      z-index: 0;
+    }
+    @keyframes glowPulse {
+      0%, 100% { opacity: 0.55; transform: scale(0.96); }
+      50%      { opacity: 0.95; transform: scale(1.02); }
+    }
+
+    /* Orbital rings — gentle slow rotation */
+    .orbit {
+      position: absolute;
+      border: 1px dashed rgba(96,165,250,0.18);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .orbit-1 {
+      inset: 4%;
+      animation: orbitSpin 50s linear infinite;
+    }
+    .orbit-2 {
+      inset: -4%;
+      border-style: solid;
+      border-color: rgba(34,211,238,0.10);
+      animation: orbitSpin 90s linear infinite reverse;
+    }
+    @keyframes orbitSpin { to { transform: rotate(360deg); } }
+
+    /* Headshot disc */
+    .headshot {
+      position: relative;
+      width: 64%;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      overflow: hidden;
+      z-index: 3;
+      border: 2px solid rgba(96,165,250,0.35);
+      box-shadow:
+        0 0 0 6px rgba(15, 22, 38, 0.85),
+        0 0 0 7px rgba(34,211,238,0.25),
+        0 18px 60px rgba(0, 0, 0, 0.55),
+        0 0 80px rgba(59,130,246,0.18);
+    }
+    .headshot img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      filter: brightness(0.95) saturate(1.05) contrast(1.02);
+    }
+    /* Subtle highlight arc on the headshot rim */
+    .headshot::after {
+      content: '';
+      position: absolute;
+      inset: -2px;
+      border-radius: 50%;
+      background: conic-gradient(from 220deg, transparent 0deg, rgba(34,211,238,0.55) 30deg, transparent 60deg);
+      mask: radial-gradient(circle, transparent 70%, black 71%, black 100%);
+      -webkit-mask: radial-gradient(circle, transparent 70%, black 71%, black 100%);
+      animation: arcSpin 14s linear infinite;
+      pointer-events: none;
+    }
+    @keyframes arcSpin { to { transform: rotate(360deg); } }
+
+    /* Floating icon objects */
+    .float {
+      position: absolute;
+      width: 38px;
+      height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, rgba(15,22,38,0.92), rgba(8,13,26,0.92));
+      border: 1px solid var(--border-2);
+      border-radius: 9px;
+      color: var(--blue-2);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.45), 0 0 0 1px rgba(34,211,238,0.04);
+      backdrop-filter: blur(6px);
+      z-index: 4;
+    }
+    .float svg { width: 18px; height: 18px; }
+    .float .lbl {
+      position: absolute;
+      bottom: -18px;
+      font-family: var(--mono);
+      font-size: 9px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--dim);
+      white-space: nowrap;
+    }
+
+    .float-1 { top: 4%;  left: 8%;  animation: drift1 6.5s ease-in-out infinite; }
+    .float-2 { top: 8%;  right: 4%; animation: drift2 7.5s ease-in-out infinite; animation-delay: -1.2s; }
+    .float-3 { top: 46%; left: -2%; animation: drift1 8s ease-in-out infinite;   animation-delay: -2.4s; }
+    .float-4 { top: 50%; right: -3%; animation: drift2 7s ease-in-out infinite;  animation-delay: -3.6s; }
+    .float-5 { bottom: 8%; left: 12%; animation: drift1 7.2s ease-in-out infinite; animation-delay: -1.8s; }
+    .float-6 { bottom: 4%; right: 10%; animation: drift2 8.4s ease-in-out infinite; animation-delay: -3s; }
+
+    @keyframes drift1 {
+      0%, 100% { transform: translateY(0) translateX(0) rotate(0deg); }
+      33%      { transform: translateY(-8px) translateX(3px) rotate(2deg); }
+      66%      { transform: translateY(4px) translateX(-2px) rotate(-1.5deg); }
+    }
+    @keyframes drift2 {
+      0%, 100% { transform: translateY(0) translateX(0) rotate(0deg); }
+      33%      { transform: translateY(6px) translateX(-3px) rotate(-2deg); }
+      66%      { transform: translateY(-7px) translateX(2px) rotate(1.5deg); }
+    }
+
+    /* Status pill on headshot edge */
+    .stage-pill {
+      position: absolute;
+      bottom: 6%;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 5;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      background: rgba(8, 13, 26, 0.92);
+      border: 1px solid rgba(34,211,238,0.35);
+      border-radius: 100px;
+      font-family: var(--mono);
+      font-size: 10.5px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--cyan);
+      backdrop-filter: blur(6px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    }
+    .stage-pill .dot-led {
+      width: 6px; height: 6px;
+      background: var(--cyan);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--cyan);
+      animation: blinkLed 2s ease-in-out infinite;
+    }
+    @keyframes blinkLed { 0%,100%{opacity:1} 50%{opacity:0.45} }
+
+    /* SKILLS — engineering subsystems */
+    .skill-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+    .skill-card {
+      position: relative;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px 22px;
+      transition: border-color .25s, transform .25s, background .25s;
+      overflow: hidden;
+    }
+    .skill-card::before {
+      content: '';
+      position: absolute;
+      top: 0; right: 0;
+      width: 14px; height: 14px;
+      border-top: 1px solid var(--border-2);
+      border-right: 1px solid var(--border-2);
+      transition: border-color .25s;
+    }
+    .skill-card:hover {
+      border-color: var(--blue);
+      transform: translateY(-4px);
+      background: rgba(59,130,246,0.05);
+    }
+    .skill-card:hover::before { border-color: var(--cyan); }
+    .skill-card:hover .skill-icon { transform: scale(1.05); }
+    .skill-card:hover .skill-icon svg { color: var(--cyan); }
+    .skill-icon {
+      width: 44px; height: 44px;
+      border-radius: 9px;
+      background: linear-gradient(135deg, rgba(59,130,246,0.14), rgba(34,211,238,0.06));
+      border: 1px solid rgba(59,130,246,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+      transition: transform .25s;
+      animation: iconBreath 5s ease-in-out infinite;
+    }
+    .skill-card:nth-child(1) .skill-icon { animation-delay: 0s; }
+    .skill-card:nth-child(2) .skill-icon { animation-delay: 1.2s; }
+    .skill-card:nth-child(3) .skill-icon { animation-delay: 2.4s; }
+    .skill-card:nth-child(4) .skill-icon { animation-delay: 3.6s; }
+    @keyframes iconBreath {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(59,130,246,0); }
+      50%      { box-shadow: 0 0 16px 0 rgba(59,130,246,0.18); }
+    }
+    .skill-icon svg { width: 22px; height: 22px; color: var(--blue-2); transition: color .25s; }
+    .skill-id {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      color: var(--dim);
+      margin-bottom: 6px;
+    }
+    .skill-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+    .skill-list {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    /* PROJECTS */
+    .project {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px;
+      margin-bottom: 22px;
+      transition: border-color .25s, background .25s, transform .35s;
+      position: relative;
+      overflow: hidden;
+    }
+    .project::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3px;
+      background: linear-gradient(180deg, var(--blue), var(--cyan));
+      opacity: 0;
+      transition: opacity .25s;
+    }
+    /* Engineering bracket corners */
+    .project .br-tl, .project .br-tr, .project .br-bl, .project .br-br {
+      position: absolute;
+      width: 14px; height: 14px;
+      border-color: var(--border-2);
+      border-style: solid;
+      border-width: 0;
+      transition: border-color .3s, width .3s, height .3s;
+    }
+    .project .br-tl { top: 10px; left: 10px; border-top-width: 1px; border-left-width: 1px; }
+    .project .br-tr { top: 10px; right: 10px; border-top-width: 1px; border-right-width: 1px; }
+    .project .br-bl { bottom: 10px; left: 10px; border-bottom-width: 1px; border-left-width: 1px; }
+    .project .br-br { bottom: 10px; right: 10px; border-bottom-width: 1px; border-right-width: 1px; }
+
+    .project:hover { border-color: var(--blue); background: rgba(59,130,246,0.04); }
+    .project:hover::before { opacity: 1; }
+    .project:hover .br-tl, .project:hover .br-tr, .project:hover .br-bl, .project:hover .br-br {
+      border-color: var(--cyan);
+      width: 22px; height: 22px;
+    }
+
+    .project-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 18px;
+      margin-bottom: 6px;
+      flex-wrap: wrap;
+    }
+    .project-id {
+      font-family: var(--mono);
+      font-size: 10.5px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--dim);
+      margin-bottom: 8px;
+    }
+    .project-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -0.3px;
+      line-height: 1.25;
+    }
+    .project-status {
+      font-family: var(--mono);
+      font-size: 10.5px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--cyan);
+      background: rgba(34,211,238,0.08);
+      border: 1px solid rgba(34,211,238,0.3);
+      padding: 5px 11px;
+      border-radius: 4px;
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .project-status::before {
+      content: '';
+      width: 6px; height: 6px;
+      background: var(--cyan);
+      border-radius: 50%;
+      box-shadow: 0 0 6px var(--cyan);
+    }
+    .project-meta {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--dim);
+      margin-bottom: 16px;
+    }
+    .project-desc {
+      color: var(--muted);
+      font-size: 15px;
+      margin-bottom: 18px;
+      line-height: 1.78;
+    }
+    .project-desc strong { color: var(--text); font-weight: 600; }
+
+    /* Engineering specs panel */
+    .specs {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 0;
+      margin-bottom: 18px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .spec {
+      padding: 16px 18px;
+      border-right: 1px solid var(--border);
+      position: relative;
+    }
+    .spec:last-child { border-right: none; }
+    .spec::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 0; height: 2px;
+      background: var(--cyan);
+      transition: width .8s ease .3s;
+    }
+    .reveal.visible .spec::before { width: 100%; }
+    .spec-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+      color: var(--dim);
+      margin-bottom: 6px;
+    }
+    .spec-value {
+      font-size: 18px;
+      color: var(--text);
+      font-weight: 700;
+      font-family: var(--mono);
+      letter-spacing: -0.3px;
+    }
+    .spec-value .unit { color: var(--blue-2); font-size: 13px; font-weight: 500; margin-left: 2px; }
+
+    /* IMAGE GALLERIES */
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+    .gallery.cols-2 { grid-template-columns: repeat(2, 1fr); }
+    .gallery-item {
+      position: relative;
+      aspect-ratio: 4 / 3;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: #000;
+      cursor: pointer;
+    }
+    .gallery-item img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      filter: brightness(0.78) saturate(1.05);
+      transition: transform .6s ease, filter .35s;
+    }
+    .gallery-item:hover img {
+      transform: scale(1.08);
+      filter: brightness(0.96) saturate(1.18);
+    }
+    .gallery-item::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(34,211,238,0.0), rgba(59,130,246,0.10));
+      pointer-events: none;
+    }
+    /* Engineering corner brackets on images */
+    .gallery-item .ic { position: absolute; width: 10px; height: 10px; border-color: var(--cyan); border-style: solid; border-width: 0; opacity: 0; transition: opacity .3s; pointer-events: none; z-index: 2; }
+    .gallery-item .ic.tl { top: 6px; left: 6px; border-top-width: 1.5px; border-left-width: 1.5px; }
+    .gallery-item .ic.tr { top: 6px; right: 6px; border-top-width: 1.5px; border-right-width: 1.5px; }
+    .gallery-item .ic.bl { bottom: 6px; left: 6px; border-bottom-width: 1.5px; border-left-width: 1.5px; }
+    .gallery-item .ic.br { bottom: 6px; right: 6px; border-bottom-width: 1.5px; border-right-width: 1.5px; }
+    .gallery-item:hover .ic { opacity: 1; }
+
+    .project-stack {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .chip {
+      font-size: 12.5px;
+      font-weight: 500;
+      padding: 5px 12px;
+      border-radius: 4px;
+      background: rgba(96,165,250,0.06);
+      color: var(--blue-3);
+      border: 1px solid rgba(96,165,250,0.2);
+      transition: background .2s, border-color .2s, color .2s;
+    }
+    .chip:hover { background: rgba(96,165,250,0.14); border-color: var(--cyan); color: var(--cyan); }
+
+    /* EXPERIENCE */
+    .timeline {
+      position: relative;
+      padding-left: 32px;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 7px; top: 6px; bottom: 6px;
+      width: 1px;
+      background: linear-gradient(180deg, var(--blue), transparent);
+    }
+    .exp {
+      position: relative;
+      margin-bottom: 36px;
+    }
+    .exp:last-child { margin-bottom: 0; }
+    .exp::before {
+      content: '';
+      position: absolute;
+      left: -32px; top: 6px;
+      width: 15px; height: 15px;
+      border-radius: 50%;
+      background: var(--bg-0);
+      border: 2px solid var(--blue);
+      box-shadow: 0 0 0 4px rgba(59,130,246,0.12);
+      transition: border-color .25s, box-shadow .25s;
+    }
+    .exp:hover::before {
+      border-color: var(--cyan);
+      box-shadow: 0 0 0 4px rgba(34,211,238,0.18);
+    }
+    .exp-head { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 4px; }
+    .exp-role { font-size: 17px; font-weight: 700; color: var(--text); }
+    .exp-date { font-family: var(--mono); font-size: 12px; color: var(--dim); }
+    .exp-org { font-size: 14px; color: var(--blue-2); margin-bottom: 8px; }
+    .exp-desc { color: var(--muted); font-size: 14.5px; line-height: 1.72; }
+
+    /* CONTACT */
+    #contact { padding-bottom: 60px; }
+    .contact-card {
+      background: linear-gradient(135deg, rgba(59,130,246,0.10) 0%, rgba(34,211,238,0.04) 100%);
+      border: 1px solid var(--border-2);
+      border-radius: 18px;
+      padding: 60px 48px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .contact-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(700px 350px at 50% 0%, rgba(59,130,246,0.22), transparent 60%);
+      pointer-events: none;
+    }
+    .contact-card::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 50%;
+      transform: translateX(-50%);
+      width: 200px; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+    }
+    .contact-title {
+      font-size: clamp(28px, 3.2vw, 36px);
+      font-weight: 800;
+      margin-bottom: 12px;
+      letter-spacing: -0.5px;
+      position: relative;
+    }
+    .contact-title span { color: var(--blue-2); }
+    .contact-sub {
+      color: var(--muted);
+      max-width: 540px;
+      margin: 0 auto 32px;
+      font-size: 15px;
+      position: relative;
+    }
+    .contact-btns { display: inline-flex; gap: 12px; flex-wrap: wrap; justify-content: center; position: relative; }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 28px 0;
+      text-align: center;
+      color: var(--dim);
+      font-size: 13px;
+      font-family: var(--mono);
+    }
+    footer a { color: var(--muted); }
+
+    /* REVEAL */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity .65s ease, transform .65s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .stagger-1 { transition-delay: .08s; }
+    .stagger-2 { transition-delay: .16s; }
+    .stagger-3 { transition-delay: .24s; }
+    .stagger-4 { transition-delay: .32s; }
+
+    /* HERO LOAD */
+    @keyframes heroFade { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
+    .hero-eyebrow { animation: heroFade .55s ease both; animation-delay: .1s; }
+    .hero-name { animation: heroFade .6s ease both; animation-delay: .22s; }
+    .hero-role { animation: heroFade .6s ease both; animation-delay: .35s; }
+    .hero-desc { animation: heroFade .6s ease both; animation-delay: .48s; }
+    .hero-btns { animation: heroFade .6s ease both; animation-delay: .6s; }
+    .hero-meta { animation: heroFade .6s ease both; animation-delay: .72s; }
+    .hud { animation: heroFade .7s ease both; animation-delay: .35s; }
+
+    /* RESPONSIVE */
+    @media (max-width: 880px) {
+      .hero-grid { grid-template-columns: 1fr; gap: 36px; }
+      .skill-grid { grid-template-columns: repeat(2, 1fr); }
+      .nav-links { gap: 18px; }
+      .nav-links li:not(:last-child) { display: none; }
+      section { padding: 70px 0; }
+      #hero { padding-top: 110px; padding-bottom: 70px; }
+      .corner { display: none; }
+      .contact-card { padding: 40px 24px; }
+      .gallery { grid-template-columns: repeat(2, 1fr); }
+      .telemetry { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 520px) {
+      .skill-grid { grid-template-columns: 1fr; }
+      .project { padding: 24px; }
+      .hero-meta { gap: 18px; }
+      .gallery, .gallery.cols-2 { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="scroll-progress" id="scrollProgress"></div>
+
+  <nav>
+    <div class="nav-inner">
+      <div class="nav-logo">
+        <span class="nav-logo-mark">
+          <svg viewBox="0 0 32 32" fill="none">
+            <circle cx="16" cy="16" r="14" stroke="currentColor" stroke-width="1.2" opacity="0.4"/>
+            <circle cx="16" cy="16" r="3" fill="var(--cyan)"/>
+            <circle cx="6" cy="6" r="2.5" stroke="var(--blue-2)" stroke-width="1.2" fill="none"/>
+            <circle cx="26" cy="6" r="2.5" stroke="var(--blue-2)" stroke-width="1.2" fill="none"/>
+            <circle cx="6" cy="26" r="2.5" stroke="var(--blue-2)" stroke-width="1.2" fill="none"/>
+            <circle cx="26" cy="26" r="2.5" stroke="var(--blue-2)" stroke-width="1.2" fill="none"/>
+            <line x1="8" y1="8" x2="14" y2="14" stroke="var(--blue-2)" stroke-width="1.2"/>
+            <line x1="24" y1="8" x2="18" y2="14" stroke="var(--blue-2)" stroke-width="1.2"/>
+            <line x1="8" y1="24" x2="14" y2="18" stroke="var(--blue-2)" stroke-width="1.2"/>
+            <line x1="24" y1="24" x2="18" y2="18" stroke="var(--blue-2)" stroke-width="1.2"/>
+          </svg>
+        </span>
+        <span>Aryan<span class="accent">.</span>Maheshwari</span>
+      </div>
+      <ul class="nav-links">
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a class="nav-cta" href="#contact">Get in touch</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <span class="corner tl"></span>
+    <span class="corner tr"></span>
+    <span class="corner bl"></span>
+    <span class="corner br"></span>
+    <div class="container">
+      <div class="hero-grid">
+        <div>
+          <div class="hero-eyebrow">
+            <span class="pulse-dot"></span>
+            Available · Summer 2026
+          </div>
+          <h1 class="hero-name">Aryan Maheshwari</h1>
+          <div class="hero-role">
+            <span class="role-divider"></span>
+            Aerospace &amp; Robotics Engineer
+          </div>
+          <p class="hero-desc">
+            I build drone systems for jobs that are too dangerous, too expensive, or too slow to do by hand. Founder and lead engineer at <strong>Aero Robotics</strong>, where I designed and patented a sensor payload that lets a drone instrument a wind turbine blade instead of sending a technician up the tower. <strong>20 field deployments</strong> at 125 m for a commercial wind energy client. Open to engineering internships where I can ship work and learn from people doing harder versions of the same problem.
+          </p>
+          <div class="hero-btns">
+            <a class="btn btn-primary" href="Aryan_Maheshwari_Resume_Internship.pdf" download>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Download resume
+            </a>
+            <a class="btn btn-secondary" href="mailto:aryan.maheshwariTX@gmail.com">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              Email me
+            </a>
+          </div>
+          <div class="hero-meta">
+            <div class="meta-item">
+              <span class="meta-label">Status</span>
+              <span class="meta-value"><span class="grn">●</span> Open to internships</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Based in</span>
+              <span class="meta-value">Houston, TX</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Relocation</span>
+              <span class="meta-value">Yes — anywhere</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Headed to</span>
+              <span class="meta-value">CU Boulder · AeroE '30</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- HEADSHOT STAGE -->
+        <div class="stage">
+          <div class="orbit orbit-1"></div>
+          <div class="orbit orbit-2"></div>
+
+          <!-- Floating tech objects -->
+          <div class="float float-1" title="Drone">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="18" r="2.5"/><line x1="8" y1="8" x2="11" y2="11"/><line x1="16" y1="8" x2="13" y2="11"/><line x1="8" y1="16" x2="11" y2="13"/><line x1="16" y1="16" x2="13" y2="13"/><rect x="10" y="10" width="4" height="4" rx="1"/></svg>
+          </div>
+          <div class="float float-2" title="Signal">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13a10 10 0 0 1 14 0"/><path d="M8.5 16.5a5 5 0 0 1 7 0"/><circle cx="12" cy="20" r="1" fill="currentColor"/></svg>
+          </div>
+          <div class="float float-3" title="Rotor">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2"/><path d="M12 2v6"/><path d="M12 16v6"/><path d="M2 12h6"/><path d="M16 12h6"/></svg>
+          </div>
+          <div class="float float-4" title="Gear">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          </div>
+          <div class="float float-5" title="Wind">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v8"/><circle cx="12" cy="12" r="2"/><path d="M12 12l-7 8"/><path d="M12 12l9 5"/><path d="M3 22h18"/></svg>
+          </div>
+          <div class="float float-6" title="Satellite">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19l3-3"/><path d="M16 8l3-3"/><rect x="3" y="14" width="7" height="7" rx="1" transform="rotate(-45 6.5 17.5)"/><rect x="14" y="3" width="7" height="7" rx="1" transform="rotate(-45 17.5 6.5)"/><path d="M11 12l1 1"/></svg>
+          </div>
+
+          <!-- Headshot -->
+          <div class="headshot">
+            <img src="aryan_headshot_circle.png" alt="Aryan Maheshwari" />
+          </div>
+
+          <div class="stage-pill">
+            <span class="dot-led"></span>
+            Founder · Aero Robotics
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="container">
+      <div class="reveal">
+        <div class="section-id">
+          <span class="tag-num">SUB · 01</span>
+          <span class="tag-line"></span>
+          Engineering Stack
+        </div>
+        <h2 class="section-title">Tools I have <span>actually used</span></h2>
+        <p class="section-sub">Not a checklist of buzzwords. These are the systems I have shipped on, debugged in the garage at 2am, or torn apart and put back together for a flight the next morning.</p>
+      </div>
+
+      <div class="skill-grid">
+        <div class="skill-card reveal stagger-1">
+          <div class="skill-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4M5 5l3 3M16 16l3 3M5 19l3-3M16 8l3-3"/></svg>
+          </div>
+          <div class="skill-id">// Subsystem 01</div>
+          <div class="skill-title">Flight stack</div>
+          <div class="skill-list">ArduPilot · Pixhawk · GNSS / RTK · ESC tuning · radio &amp; FPV · FAA certified</div>
+        </div>
+        <div class="skill-card reveal stagger-2">
+          <div class="skill-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z"/><line x1="10" y1="6.5" x2="14" y2="6.5"/><line x1="6.5" y1="10" x2="6.5" y2="14"/><line x1="17.5" y1="10" x2="17.5" y2="14"/></svg>
+          </div>
+          <div class="skill-id">// Subsystem 02</div>
+          <div class="skill-title">CAD &amp; mech</div>
+          <div class="skill-list">Fusion 360 (certified) · 3D printing · payload mounting · weight &amp; thrust budgets · vibration isolation</div>
+        </div>
+        <div class="skill-card reveal stagger-3">
+          <div class="skill-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="1.5"/><line x1="6" y1="10" x2="6" y2="14"/><line x1="10" y1="10" x2="10" y2="14"/><line x1="14" y1="10" x2="14" y2="14"/><line x1="18" y1="10" x2="18" y2="14"/><line x1="2" y1="3" x2="2" y2="6"/><line x1="22" y1="3" x2="22" y2="6"/><line x1="2" y1="18" x2="2" y2="21"/><line x1="22" y1="18" x2="22" y2="21"/></svg>
+          </div>
+          <div class="skill-id">// Subsystem 03</div>
+          <div class="skill-title">Electronics</div>
+          <div class="skill-list">Soldering · circuit integration · sensor systems · battery &amp; connector selection · wiring</div>
+        </div>
+        <div class="skill-card reveal stagger-4">
+          <div class="skill-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L4 6v6c0 5 3.5 9 8 10 4.5-1 8-5 8-10V6l-8-4z"/><path d="M9 12l2 2 4-4"/></svg>
+          </div>
+          <div class="skill-id">// Subsystem 04</div>
+          <div class="skill-title">Field engineering</div>
+          <div class="skill-list">Vendor sourcing · part substitution · pre-flight workflows · safety &amp; PPE for outdoor flight ops</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="container">
+      <div class="reveal">
+        <div class="section-id">
+          <span class="tag-num">REC · 02</span>
+          <span class="tag-line"></span>
+          Selected Work
+        </div>
+        <h2 class="section-title">Things I have <span>built and flown</span></h2>
+        <p class="section-sub">Three projects that show the through-line: identify a real constraint, design around it, and push the system into the field.</p>
+      </div>
+
+      <article class="project reveal">
+        <span class="br-tl"></span><span class="br-tr"></span><span class="br-bl"></span><span class="br-br"></span>
+        <div class="project-id">PRJ-001 · Flagship</div>
+        <div class="project-head">
+          <div>
+            <div class="project-title">Drone-deployed wind turbine sensor payload</div>
+            <div class="project-meta">Aero Robotics · 2025–present</div>
+          </div>
+          <div class="project-status">Patent pending · 63/883,099</div>
+        </div>
+        <p class="project-desc">
+          A drone-mounted system that prepares a small section of a composite blade and bonds a sensor in place, removing the need for a rope-access technician on the tower. The hard parts are not flying. They are surface prep at distance, adhesion that survives blade flex, and keeping payload weight low enough that a commercially available platform can still fly the mission cleanly. I led concept, payload design, vendor sourcing, and field deployment.
+        </p>
+        <div class="gallery">
+          <div class="gallery-item"><span class="ic tl"></span><span class="ic tr"></span><span class="ic bl"></span><span class="ic br"></span><img src="images/IMG_0898_thumb.jpg" alt="Drone with orange sensor payload hovering" loading="lazy" /></div>
+          <div class="gallery-item"><span class="ic tl"></span><span class="ic tr"></span><span class="ic bl"></span><span class="ic br"></span><img src="images/IMG_3434_thumb.jpg" alt="DJI Matrice pre-flight check" loading="lazy" /></div>
+          <div class="gallery-item"><span class="ic tl"></span><span class="ic tr"></span><span class="ic bl"></span><span class="ic br"></span><img src="images/IMG_3450_thumb.jpg" alt="Flight operator at controller" loading="lazy" /></div>
+        </div>
+        <div class="specs">
+          <div class="spec">
+            <div class="spec-label">Field deployments</div>
+            <div class="spec-value" data-count="20">0</div>
+          </div>
+          <div class="spec">
+            <div class="spec-label">Mission altitude</div>
+            <div class="spec-value" data-count="125" data-suffix-html="<span class='unit'>m</span>">0</div>
+          </div>
+          <div class="spec">
+            <div class="spec-label">Operator</div>
+            <div class="spec-value" style="font-size:14px;">FAA UAS</div>
+          </div>
+          <div class="spec">
+            <div class="spec-label">Filed</div>
+            <div class="spec-value" style="font-size:14px;">Sep 2025</div>
+          </div>
+        </div>
+        <div class="project-stack">
+          <span class="chip">ArduPilot</span>
+          <span class="chip">Fusion 360</span>
+          <span class="chip">Composite materials</span>
+          <span class="chip">Adhesive systems</span>
+          <span class="chip">Field ops</span>
+        </div>
+      </article>
+
+      <article class="project reveal">
+        <span class="br-tl"></span><span class="br-tr"></span><span class="br-bl"></span><span class="br-br"></span>
+        <div class="project-id">PRJ-002 · Capstone</div>
+        <div class="project-head">
+          <div>
+            <div class="project-title">Universal drone attachment platform</div>
+            <div class="project-meta">Aero Robotics · 2024–2025</div>
+          </div>
+          <div class="project-status">Built &amp; flown</div>
+        </div>
+        <p class="project-desc">
+          A modular under-frame mount that lets a single drone carry interchangeable payloads without re-balancing the airframe each swap. Iterated 3D-printed prototypes in Fusion 360 with focus on vibration isolation, structural stability, and cross-platform compatibility. The interesting design problem was the connector: rigid enough to handle vibration in flight, loose enough to hot-swap on the bench.
+        </p>
+        <div class="gallery cols-2">
+          <div class="gallery-item"><span class="ic tl"></span><span class="ic tr"></span><span class="ic bl"></span><span class="ic br"></span><img src="images/ud_drone_render.jpg" alt="Universal drone attachment CAD render" loading="lazy" /></div>
+          <div class="gallery-item"><span class="ic tl"></span><span class="ic tr"></span><span class="ic bl"></span><span class="ic br"></span><img src="images/ud_cad_exploded.jpg" alt="Exploded CAD view of universal attachment" loading="lazy" /></div>
+        </div>
+        <div class="project-stack">
+          <span class="chip">Fusion 360</span>
+          <span class="chip">3D printing</span>
+          <span class="chip">Mechanical design</span>
+          <span class="chip">Vibration isolation</span>
+          <span class="chip">Team lead</span>
+        </div>
+      </article>
+
+      <article class="project reveal">
+        <span class="br-tl"></span><span class="br-tr"></span><span class="br-bl"></span><span class="br-br"></span>
+        <div class="project-id">PRJ-003 · Industry exposure</div>
+        <div class="project-head">
+          <div>
+            <div class="project-title">Pilot ops support — Mars Materials</div>
+            <div class="project-meta">Commercial Ops Intern · backed by Breakthrough Energy · Summer 2024</div>
+          </div>
+          <div class="project-status">First HS intern on team</div>
+        </div>
+        <p class="project-desc">
+          Embedded with a climate-tech startup running a CO₂-to-acrylonitrile pilot at the Shell Technology Center in Houston. Worked directly with the CEO on fundraising materials and investor outreach. Sat in on test runs, captured post-run technical debriefs, and turned them into reusable operational workflows. Useful exposure to what real pilot-scale hardware actually looks like: messy schedules, vendor substitutions, and a constant tension between research goals and uptime.
+        </p>
+        <div class="project-stack">
+          <span class="chip">Pilot operations</span>
+          <span class="chip">Investor decks</span>
+          <span class="chip">Process documentation</span>
+          <span class="chip">Climate hardware</span>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="container">
+      <div class="reveal">
+        <div class="section-id">
+          <span class="tag-num">LOG · 03</span>
+          <span class="tag-line"></span>
+          Track Record
+        </div>
+        <h2 class="section-title">Where I have <span>worked</span></h2>
+        <p class="section-sub">Short version. The full resume has the rest.</p>
+      </div>
+
+      <div class="timeline reveal">
+        <div class="exp">
+          <div class="exp-head">
+            <div class="exp-role">Founder &amp; Lead Engineer</div>
+            <div class="exp-date">May 2025 — present</div>
+          </div>
+          <div class="exp-org">Aero Robotics</div>
+          <div class="exp-desc">Drove the wind turbine sensor payload from concept to field deployment. Filed a provisional patent. Logged 20 commercial field missions at 125m as an FAA-certified UAS operator. Currently pursuing Part 107.</div>
+        </div>
+
+        <div class="exp">
+          <div class="exp-head">
+            <div class="exp-role">Commercial Operations Intern</div>
+            <div class="exp-date">Jun — Aug 2024</div>
+          </div>
+          <div class="exp-org">Mars Materials · backed by Breakthrough Energy</div>
+          <div class="exp-desc">Worked alongside the CEO on fundraising, investment decks, and investor outreach. Site visits and post-run debriefs at Shell Technology Center. Youngest and first high school intern the team brought on.</div>
+        </div>
+
+        <div class="exp">
+          <div class="exp-head">
+            <div class="exp-role">Product Design Intern</div>
+            <div class="exp-date">May — Aug 2023</div>
+          </div>
+          <div class="exp-org">Predyct</div>
+          <div class="exp-desc">Researched wind turbine blade failure modes and low-power sensing requirements. Findings fed directly into Predyct's core sensor specification and competitive positioning.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="container">
+      <div class="contact-card reveal">
+        <h2 class="contact-title">Let's <span>build something</span></h2>
+        <p class="contact-sub">Open to internships across aerospace, robotics, climate hardware, and adjacent engineering work. If your team is building real things, I would love to talk. I will travel, I will relocate, and I will show up ready to contribute.</p>
+        <div class="contact-btns">
+          <a class="btn btn-primary" href="mailto:aryan.maheshwariTX@gmail.com">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            aryan.maheshwariTX@gmail.com
+          </a>
+          <a class="btn btn-secondary" href="tel:+12817639846">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            (281) 763-9846
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      © 2026 Aryan Maheshwari · Houston, TX
+    </div>
+  </footer>
+
+  <script>
+    // Reveal on scroll
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          // Animate counters inside revealed element
+          e.target.querySelectorAll('[data-count]').forEach(el => animateCount(el));
+          // Animate bar fills
+          e.target.querySelectorAll('[data-fill]').forEach(el => {
+            requestAnimationFrame(() => { el.style.width = el.dataset.fill + '%'; });
+          });
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.18, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+    // Hero counters / fills (auto-trigger after load)
+    window.addEventListener('load', () => {
+      document.querySelectorAll('.hud [data-count]').forEach(el => animateCount(el));
+      document.querySelectorAll('.hud [data-fill]').forEach(el => {
+        setTimeout(() => { el.style.width = el.dataset.fill + '%'; }, 600);
+      });
+    });
+
+    function animateCount(el) {
+      const target = parseFloat(el.dataset.count);
+      const suffix = el.dataset.suffix || '';
+      const suffixHtml = el.dataset.suffixHtml || '';
+      const dur = 1400;
+      const start = performance.now();
+      const startVal = 0;
+      function step(now) {
+        const t = Math.min((now - start) / dur, 1);
+        const eased = 1 - Math.pow(1 - t, 3);
+        const val = Math.round(startVal + (target - startVal) * eased);
+        if (suffixHtml) {
+          el.innerHTML = val + suffixHtml;
+        } else {
+          el.textContent = val + suffix;
+        }
+        if (t < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    }
+
+    // Scroll progress bar
+    const sp = document.getElementById('scrollProgress');
+    function updateProgress() {
+      const h = document.documentElement;
+      const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+      sp.style.width = pct + '%';
+    }
+    document.addEventListener('scroll', updateProgress, { passive: true });
+    updateProgress();
+  </script>
+
+</body>
+</html>
