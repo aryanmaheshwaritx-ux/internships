@@ -795,6 +795,14 @@
       filter: brightness(0.78) saturate(1.05);
       transition: transform .6s ease, filter .35s;
     }
+    .gallery-item video {
+      width: 100%; height: 100%;
+      display: block;
+      object-fit: cover;
+      background: #000;
+    }
+    .gallery-item.video-item { cursor: default; }
+
     .gallery-item:hover img {
       transform: scale(1.08);
       filter: brightness(0.96) saturate(1.18);
@@ -1136,7 +1144,7 @@
           Selected Work
         </div>
         <h2 class="section-title">Things I have <span>built and flown</span></h2>
-        <p class="section-sub">Three projects that show the through-line: identify a real constraint, design around it, and push the system into the field.</p>
+        <p class="section-sub">Four projects that show the through-line: identify a real constraint, design around it, and push the system into the field.</p>
       </div>
 
       <article class="project reveal">
@@ -1186,7 +1194,59 @@
 
       <article class="project reveal">
         <span class="br-tl"></span><span class="br-tr"></span><span class="br-bl"></span><span class="br-br"></span>
-        <div class="project-id">PRJ-002 · Capstone</div>
+        <div class="project-id">PRJ-002 · Aero Robotics build</div>
+        <div class="project-head">
+          <div>
+            <div class="project-title">Custom quadcopter build</div>
+            <div class="project-meta">Aero Robotics (student venture) · Custom aircraft development</div>
+          </div>
+          <div class="project-status">Maiden flight complete</div>
+        </div>
+        <p class="project-desc">
+          As part of Aero Robotics, I built a mid-lift quadcopter from the ground up to understand how the mechanical, electrical, propulsion, and control systems work together. I assembled the frame, installed the motors and propulsion hardware, routed the wiring, integrated the electronics, and prepared the complete aircraft for testing.
+        </p>
+        <p class="project-desc">
+          The quadcopter completed a successful maiden flight and responded to pilot inputs under its own power. I used the flight results to adjust the control setup, reduce unwanted movement, and improve stability and handling.
+        </p>
+        <div class="gallery">
+          <div class="gallery-item"><span class="ic tl"></span><span class="ic tr"></span><span class="ic bl"></span><span class="ic br"></span><img src="https://aryanmaheshwaritx-ux.github.io/portfolio/4b50dff2-8612-40d6-835b-ac47e1452759.JPG" alt="Quadcopter frame and base components arranged before assembly" loading="lazy" /></div>
+          <div class="gallery-item"><span class="ic tl"></span><span class="ic tr"></span><span class="ic bl"></span><span class="ic br"></span><img src="https://aryanmaheshwaritx-ux.github.io/portfolio/425247be-6f43-48f3-a4c3-afd86374d126.JPG" alt="Custom quadcopter during electrical integration and wiring" loading="lazy" /></div>
+          <div class="gallery-item"><span class="ic tl"></span><span class="ic tr"></span><span class="ic bl"></span><span class="ic br"></span><img src="https://aryanmaheshwaritx-ux.github.io/portfolio/33d36f93-9e41-4c17-a871-b94144cd51fc.JPG" alt="Aryan assembling the quadcopter at a work table" loading="lazy" style="object-position:center 30%;" /></div>
+          <div class="gallery-item"><span class="ic tl"></span><span class="ic tr"></span><span class="ic bl"></span><span class="ic br"></span><img src="https://aryanmaheshwaritx-ux.github.io/portfolio/4f18c790-1309-42bd-a631-01e4aefd736f.JPG" alt="Aryan configuring the quadcopter control system at a computer" loading="lazy" style="object-position:center 35%;" /></div>
+          <div class="gallery-item"><span class="ic tl"></span><span class="ic tr"></span><span class="ic bl"></span><span class="ic br"></span><img src="https://aryanmaheshwaritx-ux.github.io/portfolio/edf92465-70ec-4264-925e-eab3a887d838.JPG" alt="Completed custom mid-lift quadcopter" loading="lazy" style="object-position:center 55%;" /></div>
+          <div class="gallery-item video-item"><span class="ic tl"></span><span class="ic tr"></span><span class="ic bl"></span><span class="ic br"></span><video controls playsinline preload="metadata" aria-label="Video of the custom quadcopter maiden flight"><source src="https://aryanmaheshwaritx-ux.github.io/portfolio/b1e6cbc1-56f3-4d80-a609-4c5f8992f880.MP4" type="video/mp4">Your browser does not support embedded video.</video></div>
+        </div>
+        <div class="specs">
+          <div class="spec">
+            <div class="spec-label">Aircraft class</div>
+            <div class="spec-value" style="font-size:14px;">Mid-lift</div>
+          </div>
+          <div class="spec">
+            <div class="spec-label">Build scope</div>
+            <div class="spec-value" style="font-size:14px;">Ground-up</div>
+          </div>
+          <div class="spec">
+            <div class="spec-label">Flight result</div>
+            <div class="spec-value" style="font-size:14px;">Successful</div>
+          </div>
+          <div class="spec">
+            <div class="spec-label">Validation</div>
+            <div class="spec-value" style="font-size:14px;">Control tuning</div>
+          </div>
+        </div>
+        <div class="project-stack">
+          <span class="chip">Mechanical assembly</span>
+          <span class="chip">Electrical integration</span>
+          <span class="chip">Propulsion systems</span>
+          <span class="chip">Flight controls</span>
+          <span class="chip">System tuning</span>
+          <span class="chip">Flight testing</span>
+        </div>
+      </article>
+
+      <article class="project reveal">
+        <span class="br-tl"></span><span class="br-tr"></span><span class="br-bl"></span><span class="br-br"></span>
+        <div class="project-id">PRJ-003 · Capstone</div>
         <div class="project-head">
           <div>
             <div class="project-title">Universal drone attachment platform</div>
@@ -1212,7 +1272,7 @@
 
       <article class="project reveal">
         <span class="br-tl"></span><span class="br-tr"></span><span class="br-bl"></span><span class="br-br"></span>
-        <div class="project-id">PRJ-003 · Industry exposure</div>
+        <div class="project-id">PRJ-004 · Industry exposure</div>
         <div class="project-head">
           <div>
             <div class="project-title">Commercial Ops Intern — Mars Materials</div>
