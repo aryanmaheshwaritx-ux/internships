@@ -1,0 +1,73 @@
+ARYAN MAHESHWARI
+
+aryan.maheshwariTX@gmail.com | (281) 763-9846 | Houston, Texas
+
+aryanmaheshwaritx-ux.github.io/internships
+
+EXPERIENCE
+
+Founder & Lead Engineer | May 2025 - Present
+
+Aero Robotics (Student Venture)
+
+• Filed a USPTO patent application (Sept. 2025) for a wind turbine blade maintenance payload; designed and built a system for surface preparation, composite-safe cleaning, adhesive application, and precision sensor placement within payload weight limits.
+
+• Built a drone-deployed robotic system for hazardous industrial environments, with wind turbine blade inspection as the first target application; development is ongoing.
+
+• Prototyped a modular quick-swap drone attachment platform in Fusion 360; iterated 3D-printed designs for vibration isolation, structural stability, and compatibility across drone platforms.
+
+• Piloted 20 field deployments at 125 m for a commercial wind energy client in Minnesota; pursuing Part 107 certification.
+
+Commercial Operations Intern | Jun 2024 - Aug 2024
+
+Mars Materials (ClimateTech, backed by Breakthrough Energy)
+
+• Prepared investment decks, reviewed investor theses, and drafted investor outreach directly with the CEO to support fundraising.
+
+• Turned post-run technical debriefs from the pilot system at Shell Technology Center into reusable operational workflows.
+
+• Contributed to grant applications and designed elements of an internal employee recognition program.
+
+Product Design Intern | May 2023 - Aug 2023
+
+Predyct (ClimateTech) | predyct.io
+
+• Informed the core sensor specification through research on wind turbine blade failure statistics and low-power sensing requirements.
+
+• Identified market gaps through competitive analysis of blade monitoring solutions, helping shape product direction.
+
+EDUCATION
+
+University of Illinois Urbana-Champaign
+
+B.S. Aerospace Engineering | Minor in Business | Expected May 2030
+
+Lawrence E. Elkins High School, Engineering Academy
+
+Honors Diploma, 2026 | Engineering & Computer Science
+
+TECHNICAL SKILLS
+
+Flight Systems: ArduPilot, Pixhawk-class flight controllers, GNSS/RTK integration, ESC and radio systems, battery and payload budgeting
+
+Mechanical Design: Siemens NX, Autodesk Fusion 360 (Certified), 3D prototyping, payload structural design, mounting systems
+
+Electronics: Soldering, circuit integration, sensor systems, connector and wiring selection
+
+Programming: Python, Java, HTML/CSS | Other: AI/ML fundamentals, investment deck preparation
+
+ENGINEERING CLUBS & SELECTED ACTIVITIES
+
+• Illini Electric Motorsports | Member
+
+• Liquid Rocketry | Member
+
+• NASA High School Aerospace Scholars (HAS) Program | Oct 2024 - Jul 2025
+
+• TSA Drone Challenge | Pilot, State Finalist (2026)
+
+• TEX-E ClimateTech Entrepreneurship Bootcamp | Apr 2025
+
+• VEX Robotics Competition | District Award (2023)
+
+• Chinmaya Mission Houston | Student Teacher & Cultural Volunteer (2018 - Present)
